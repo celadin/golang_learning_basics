@@ -40,11 +40,29 @@ func (r rectangle) perimeter() float64 {
 	return 2 * (r.height + r.width)
 }
 
+func (r rectangle) getColor() string {
+	return "black"
+}
+
 func printShapeDetails(s shape) {
 	fmt.Println(strings.Repeat("#", 25))
 	fmt.Printf("Shape : %T\n", s)
 	fmt.Printf("Area : %v\n", s.area())
 	fmt.Printf("Perimeter : %v\n", s.perimeter())
+}
+
+//embedded interfaces
+type geometry interface {
+	shape
+	getColor() string
+}
+
+func printGeometryDetails(g geometry) {
+	fmt.Println(strings.Repeat("#", 25))
+	fmt.Printf("Shape : %T\n", g)
+	fmt.Printf("Area : %v\n", g.area())
+	fmt.Printf("Perimeter : %v\n", g.perimeter())
+	fmt.Printf("Color : %v\n", g.getColor())
 }
 
 func main() {
@@ -71,5 +89,10 @@ func main() {
 	case rectangle:
 		fmt.Printf("Type of s is rectangle %#v", value)
 	}
+
+	fmt.Println(strings.Repeat("#", 25))
+
+	cube := rectangle{width: 3, height: 4}
+	printGeometryDetails(cube)
 
 }
