@@ -23,6 +23,10 @@ func (c circle) perimeter() float64 {
 	return 2 * math.Pi * c.radius
 }
 
+func (c circle) volume() float64 {
+	return 4 / 3 * math.Pi * math.Pow(c.radius, 3)
+}
+
 type rectangle struct {
 	width  float64
 	height float64
@@ -49,4 +53,23 @@ func main() {
 
 	r := rectangle{height: 2.0, width: 3.0}
 	printShapeDetails(r)
+
+	fmt.Println(strings.Repeat("#", 25))
+
+	var s shape = circle{radius: 2.5}
+
+	//type assertion
+	ball, ok := s.(circle)
+	if ok {
+		fmt.Println("Ball Volume : ", ball.volume())
+	}
+
+	//type switches
+	switch value := s.(type) {
+	case circle:
+		fmt.Printf("Type of s is circle %#v", value)
+	case rectangle:
+		fmt.Printf("Type of s is rectangle %#v", value)
+	}
+
 }
