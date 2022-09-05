@@ -7,10 +7,20 @@ import (
 
 type animals []string
 
-func (a animals) Print(){
+func (a animals) Print() {
 	for _, v := range a {
 		fmt.Println(v)
 	}
+}
+
+type car struct {
+	brand string
+	price int
+}
+
+func (c *car) changeCar(newBrand string, newPrice int) {
+	(*c).brand = newBrand
+	(*c).price = newPrice
 }
 
 func main() {
@@ -22,4 +32,9 @@ func main() {
 	pets.Print()
 
 	fmt.Println(strings.Repeat("#", 20))
+
+	audi := car{"Audi", 40}
+	fmt.Println(audi)
+	audi.changeCar("Bmw", 50)
+	fmt.Println(audi)
 }
