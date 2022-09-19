@@ -6,13 +6,13 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"sync"  
 )
 
-func checkAndSaveBody(url string) {
-
-	fmt.Println(strings.Repeat("-", 50))
+func checkAndSaveBody(url string, wg *sync.WaitGroup) {	
 
 	resp, err := http.Get(url)
+
 	if err != nil {
 		fmt.Println(err)
 		fmt.Printf("%s is Down!", url)
@@ -34,16 +34,25 @@ func checkAndSaveBody(url string) {
 			}
 		}
 	}
+
+	fmt.Println(strings.Repeat("-", 50))
+
+	wg.Done()	
 }
 
 func main() {
 
+	var wg sync.WaitGroup
+
 	urls := []string{"https://golang.org", "https://www.google.com", "https://www.medium.com"}
 
+	wg.Add(len(urls))
+
 	for _, url := range urls {
-		checkAndSaveBody(url)
+		go checkAndSaveBody(url, &wg)
 	}
 
-	fmt.Println("DONE")
+	wg.Wait()
 
+	fmt.Println("DONE")
 }
